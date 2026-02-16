@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Kicks - ₹999 Store</title>
+    <title>Star Shoes - Premium Sneakers Store</title>
     <style>
         :root {
             --primary: #4a90e2;
@@ -59,7 +59,6 @@
         }
         .search-box:focus { border-color: var(--primary); background: white; }
 
-        /* Brand Tabs Section */
         .brand-tabs {
             display: flex;
             gap: 12px;
@@ -107,7 +106,6 @@
             border-radius: 12px;
         }
 
-        /* Grid */
         .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
         .products-grid {
             display: grid;
@@ -115,7 +113,6 @@
             gap: 30px;
         }
 
-        /* Card Styling */
         .card {
             background: white;
             border-radius: 25px;
@@ -159,14 +156,12 @@
         }
         .size-btn.selected { background: var(--dark); color: white; border-color: var(--dark); }
 
-        /* Action Buttons */
         .actions { display: flex; gap: 10px; }
         .btn-cart { flex: 1; padding: 14px; border: 2px solid var(--dark); background: white; border-radius: 15px; font-weight: 700; cursor: pointer; transition: 0.3s; }
         .btn-buy { flex: 1.5; padding: 14px; border: none; background: var(--dark); color: white; border-radius: 15px; font-weight: 700; cursor: pointer; transition: 0.3s; }
         .btn-cart:hover { background: #f8f8f8; }
         .btn-buy:hover { background: #000; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-        /* Sidebar & Modals */
         .sidebar {
             position: fixed; right: -400px; top: 0; width: 380px; height: 100%;
             background: white; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
@@ -214,7 +209,7 @@
 <body>
 
     <div class="header">
-        <h1>👟 Premium Kicks</h1>
+        <h1>👟 Star Shoes</h1>
         <div class="price-badge">FLAT ₹999 + Free Shipping</div>
         <div class="header-controls">
             <input type="text" id="searchInput" class="search-box" placeholder="Search by brand or model name...">
@@ -237,7 +232,6 @@
         <div class="products-grid" id="productGrid"></div>
     </div>
 
-    <!-- Cart Sidebar -->
     <div class="sidebar" id="cartSidebar">
         <div class="sidebar-header">
             <h2>Shopping Cart</h2>
@@ -255,15 +249,12 @@
         </div>
     </div>
 
-    <!-- Buy Modal -->
     <div class="modal" id="buyModal">
         <div class="modal-card">
             <h2 id="modalTitle">Sneaker Name</h2>
             <p id="modalDetail" style="margin:12px 0; color:#777; font-size:1.1rem;"></p>
             <div style="font-size:2.2rem; font-weight:900; color:var(--dark); margin:20px 0;">₹999</div>
-            <button class="wa-btn" id="confirmWaBtn">
-                Send Order to WhatsApp
-            </button>
+            <button class="wa-btn" id="confirmWaBtn">Send Order to WhatsApp</button>
             <button onclick="closeModal()" style="margin-top:25px; background:none; border:none; color:#bbb; cursor:pointer; font-weight:700;">Close</button>
         </div>
     </div>
@@ -271,7 +262,6 @@
     <div id="toast" class="toast"></div>
 
     <script>
-        // WhatsApp Number set as requested
         const MY_WHATSAPP_NUMBER = "917389444045"; 
 
         const baseIds = [
@@ -282,13 +272,12 @@
         const brands = ["Nike", "Adidas", "Jordan", "Puma", "NB"];
         const products = [];
         
-        // Generating 100 items collection
         for (let i = 0; i < 100; i++) {
             const b = brands[i % brands.length];
             products.push({
                 id: i + 1,
                 brand: b,
-                name: `${b} Premium Series ${i + 1}`,
+                name: `${b} Star Premium ${i + 1}`,
                 imgId: baseIds[i % baseIds.length],
                 price: 999
             });
@@ -298,17 +287,18 @@
         let selectedSizes = {};
         let currentFilter = 'all';
 
-        // MAIN RENDER FUNCTION - Fixed Image URL Syntax
         function render(items) {
             const grid = document.getElementById('productGrid');
             if(items.length === 0) {
                 grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:100px; color:#999; font-size:1.2rem;">Oops! No matching kicks found.</div>`;
                 return;
             }
+            
             grid.innerHTML = items.map(p => `
                 <div class="card">
                     <div class="img-container">
-                        <img src="https://lh3.googleusercontent.com/d/${p.imgId}" alt="${p.name}">
+                        <img src="https://lh3.googleusercontent.com/d/${p.imgId}" alt="${p.name}" 
+                             onerror="this.src='https://placehold.co/400x400?text=Check+Internet'">
                     </div>
                     <div class="info">
                         <div class="brand-name">${p.brand}</div>
@@ -353,11 +343,9 @@
             const size = selectedSizes[id];
             if (!size) { showToast("Bhai, size select karna zaroori hai!"); return; }
             const p = products.find(x => x.id === id);
-            
             document.getElementById('modalTitle').innerText = p.name;
             document.getElementById('modalDetail').innerText = `Category: ${p.brand} | Selected Size: UK ${size}`;
             document.getElementById('buyModal').style.display = 'flex';
-            
             document.getElementById('confirmWaBtn').onclick = () => {
                 const msg = `Order Inquiry:\n\n🔥 *Item:* ${p.name}\n📏 *Size:* UK ${size}\n💰 *Price:* ₹999\n\nIs this available?`;
                 window.open(`https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`);
@@ -416,7 +404,6 @@
         };
 
         document.getElementById('searchInput').oninput = filterProducts;
-
         document.getElementById('brandTabs').onclick = (e) => {
             if (e.target.classList.contains('tab')) {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
